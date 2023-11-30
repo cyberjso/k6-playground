@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+
+  k6:
+    container_name: k6
+    image: grafana/k6:latest
+    command: run /index.js
+    environment:
+      - AWS_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=fakeAccessKeyIdDDDDDDDDDDD
+      - AWS_SECRET_ACCESS_KEY=fakeSecretAccessKey
+      - AWS_SESSION_TOKEN=123456
+      - AWS_ACCOUNT_ID=000000000000
+      - ENDPOINT=localstack:4566
+      - DEVICES=3000
+      - REGISTRATION_QUEUE=device_registration
+      - INFO_QUEUE=device_info
+      - PROTOCOL=http
+    volumes:
+      - "./index.js:/index.js:rw"
+    depends_on:
+     - localstack
+
+  localstack:
+    container_name: localstack
+    hostname: localstack
+    image: localstack/localstack:3.0.1
+    ports:
+      - "4566:4566"
+    environment:
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_ACCESS_KEY_ID=fakeAccessKeyIdDDDDDDDDDDD
+      - AWS_SECRET_ACCESS_KEY=fakeSecretAccessKey
+      - http_proxy=
+      - https_proxy=
+      - DEBUG=${DEBUG-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - USE_SSL=0
+      - LOCALSTACK_HOST=localstack
+      - REGISTRATION_QUEUE=device_registration
+      - INFO_QUEUE=device_info
+    volumes:
+      - ${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./sqs-setup.sh:/etc/localstack/init/ready.d/sqs-setup.sh

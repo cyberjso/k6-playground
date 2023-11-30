@@ -1,0 +1,14 @@
+{
+  "name": "@spredfast/sqs-test",
+  "version": "1.0.0",
+  "description": "Shows how to use K6 to load test SQS endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jackson Oliveira <jackson.oliveira.rs@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "k6": "^0.0.0"
+  }
+}
