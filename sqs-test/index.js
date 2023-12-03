@@ -7,6 +7,11 @@ const sqs = new SQSClient(buildAWSConfig());
 const registrationQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.REGISTRATION_QUEUE}`;
 const infoQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.INFO_QUEUE}`;
 
+console.log("********")
+console.log(registrationQueue);
+
+console.log(__ENV)
+
 const fakeDevices = new SharedArray("register-payload", function () {
   let devices = [];
 
