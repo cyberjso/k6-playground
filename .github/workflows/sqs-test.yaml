@@ -10,11 +10,11 @@ on:
         required: true
         description: "Number of devicees to emulate during the tests"
       info-queue:
-        default: "devices-info"
+        default: "device_info"
         required: true
         description: "Name of the SQS queue to send device info during the tests"
       registration-queue:
-        default: "register-info"
+        default: "device_registration"
         required: true
         description: "Name of the SQS queue to send for devices to register themselves during the tests"        
 
