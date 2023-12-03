@@ -61,7 +61,7 @@ export const options = {
       preAllocatedVUs: 100,
       exec: "send_device_info",
       rate: __ENV.DEVICES,
-      timeUnit: "10m",
+      timeUnit: "1m",
       startTime: "10s",
       duration: "3m",
     },
