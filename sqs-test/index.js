@@ -3,7 +3,15 @@ import { scenario } from "k6/execution";
 import { AWSConfig, SQSClient } from "https://jslib.k6.io/aws/0.11.0/sqs.js";
 import { uuidv4 } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const sqs = new SQSClient(buildAWSConfig());
+const awsConfig =  new AWSConfig({
+    region: __ENV.AWS_REGION,
+    accessKeyId: __ENV.AWS_ACCESS_KEY_ID,
+    secretAccessKey: __ENV.AWS_SECRET_ACCESS_KEY,
+    sessionToken: __ENV.AWS_SESSION_TOKEN        
+  });
+
+const sqs = new SQSClient(awsConfig);
+
 const registrationQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.REGISTRATION_QUEUE}`;
 const infoQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.INFO_QUEUE}`;
 
