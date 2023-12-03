@@ -1,0 +1,45 @@
+name: SQS Test workflow
+on:
+  workflow_dispatch:
+    inputs:
+      aws-region:
+        default: "us-east-1"
+        required: true
+      devices:
+        default: "50"
+        required: true
+        description: "Number of devicees to emulate during the tests"
+      info-queue:
+        default: "devices-info"
+        required: true
+        description: "Name of the SQS queue to send device info during the tests"
+      registration-queue:
+        default: "register-info"
+        required: true
+        description: "Name of the SQS queue to send for devices to register themselves during the tests"        
+
+        
+jobs:
+  
+  build:
+    name: Run k6 tests against SQS queue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run k6 local test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: sqs-test/index.js
+        env:
+          AWS_REGION: ${{ github.event.inputs.aws-region }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          DEVICES: ${{ github.event.inputs.devices }}
+          PROTOCOL: "https"
+          INFO_QUEUE: ${{ github.event.inputs.info-queue }}
+          REGISTRATION_QUEUE: ${{ github.event.inputs.registration-queue }}
+          ENDPOINT: "amazon.com"
+
