@@ -21,7 +21,7 @@ on:
         default: false
         required: true
         type: boolean
-        description: "Defines whether or not tests will be targetting the real AWs APIs"
+        description: "Should point the k6 executors against the Localstack running as local container with docker-compose"
         
 jobs:
   
