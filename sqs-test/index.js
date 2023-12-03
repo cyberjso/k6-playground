@@ -3,14 +3,7 @@ import { scenario } from "k6/execution";
 import { AWSConfig, SQSClient } from "https://jslib.k6.io/aws/0.11.0/sqs.js";
 import { uuidv4 } from "https://jslib.k6.io/k6-utils/1.4.0/index.js";
 
-const awsConfig =  new AWSConfig({
-    region: __ENV.AWS_REGION,
-    accessKeyId: __ENV.AWS_ACCESS_KEY_ID,
-    secretAccessKey: __ENV.AWS_SECRET_ACCESS_KEY,
-    sessionToken: __ENV.AWS_SESSION_TOKEN,
-    endpoint: `${__ENV.PROTOCOL}://${__ENV.ENDPOINT}`,
-});
-
+const awsConfig =  buildAWSConfig();
 const sqs = new SQSClient(awsConfig);
 const registrationQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.REGISTRATION_QUEUE}`;
 const infoQueue = `${__ENV.PROTOCOL}://sqs.${__ENV.AWS_REGION}.${__ENV.ENDPOINT}/${__ENV.AWS_ACCOUNT_ID}/${__ENV.INFO_QUEUE}`;
@@ -77,7 +70,8 @@ export function send_device_info() {
 
 function buildAWSConfig() {
     // If running locally. These env vars are only required when requesting localstack
-    if (__ENV.PROTOCOL && __ENV.ENDPOINT) {      
+    if (__ENV.IS_LOCAL) {  
+      console.log("is local")    
       return new AWSConfig({
         region: __ENV.AWS_REGION,
         accessKeyId: __ENV.AWS_ACCESS_KEY_ID,
@@ -91,7 +85,6 @@ function buildAWSConfig() {
             region: __ENV.AWS_REGION,
             accessKeyId: __ENV.AWS_ACCESS_KEY_ID,
             secretAccessKey: __ENV.AWS_SECRET_ACCESS_KEY,
-            sessionToken: __ENV.AWS_SESSION_TOKEN        
           });
     
     }

@@ -13,10 +13,11 @@ services:
       - AWS_SESSION_TOKEN=123456
       - AWS_ACCOUNT_ID=000000000000
       - ENDPOINT=localstack:4566
-      - DEVICES=3000
+      - DEVICES=10
       - REGISTRATION_QUEUE=device_registration
       - INFO_QUEUE=device_info
       - PROTOCOL=http
+      - IS_LOCAL=true
     volumes:
       - "./index.js:/index.js:rw"
     depends_on:

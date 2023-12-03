@@ -16,8 +16,12 @@ on:
       registration-queue:
         default: "device_registration"
         required: true
-        description: "Name of the SQS queue to send for devices to register themselves during the tests"        
-
+        description: "Name of the SQS queue to send for devices to register themselves during the tests"
+      is_local:
+        default: false
+        required: true
+        type: boolean
+        description: "Defines whether or not tests will be targetting the real AWs APIs"
         
 jobs:
   
