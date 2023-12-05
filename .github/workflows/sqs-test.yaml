@@ -36,7 +36,7 @@ jobs:
         uses: grafana/k6-action@v0.3.1
         with:
           filename: sqs-test/index.js
-          flags: --out json=results.json          
+          flags: --out json=results.json            
         env:
           AWS_REGION: ${{ github.event.inputs.aws-region }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
